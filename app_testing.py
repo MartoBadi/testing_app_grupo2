@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import os
+from PIL import Image
 
 # Cargar el modelo TFLite
 interpreter = tf.lite.Interpreter(model_path='model.tflite')
@@ -18,13 +19,22 @@ class_names = ['burj_khalifa', 'chichen_itza', 'christ the reedemer', 'eiffel_to
 
 # Preprocesar la imagen subida
 def preprocess_image(image):
-    size = (150, 150)
+    # Redimensionar la imagen al tamaño esperado por el modelo
+    image = image.resize((150, 150))
+    
+    # Convertir la imagen a un array de numpy
     image = np.array(image)
-    image = np.resize(image, (size[0], size[1], 3))  # Redimensionar la imagen
-    img_array = image / 255.0  # Normalizar la imagen
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array = img_array.astype(np.float32)  # Asegurarse de que la imagen sea de tipo FLOAT32
-    return img_array
+    
+    # Normalizar la imagen (asegúrate de que esto coincida con el notebook)
+    image = image / 255.0
+    
+    # Expandir las dimensiones para que coincida con el formato esperado por el modelo
+    image = np.expand_dims(image, axis=0)
+    
+    # Asegurarse de que la imagen sea de tipo FLOAT32
+    image = image.astype(np.float32)
+    
+    return image
 
 # Función para evaluar el conjunto de prueba
 def evaluate_test_set(test_dir):
@@ -36,7 +46,7 @@ def evaluate_test_set(test_dir):
         if os.path.isdir(class_dir):
             for image_name in os.listdir(class_dir):
                 image_path = os.path.join(class_dir, image_name)
-                image = mpimg.imread(image_path)
+                image = Image.open(image_path)
                 img_array = preprocess_image(image)
                 
                 # Hacer predicciones
@@ -46,6 +56,9 @@ def evaluate_test_set(test_dir):
                 
                 # Obtener la clase con mayor probabilidad
                 predicted_class = class_names[np.argmax(predictions)]
+                
+                # Imprimir información de depuración
+                print(f"Real: {class_name}, Predicha: {predicted_class}, Predicciones: {predictions}")
                 
                 # Comparar con la etiqueta real
                 if predicted_class == class_name:
