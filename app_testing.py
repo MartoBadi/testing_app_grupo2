@@ -56,7 +56,7 @@ def evaluate_test_set(test_dir):
     return accuracy
 
 # Directorio del conjunto de prueba
-test_dir = '/test'
+test_dir = 'test'
 
 # Evaluar el conjunto de prueba
 accuracy = evaluate_test_set(test_dir)
