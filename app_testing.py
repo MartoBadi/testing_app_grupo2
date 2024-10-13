@@ -25,7 +25,7 @@ def preprocess_image(image):
     img_array = image / 255.0  # Normalizar la imagen
     img_array = np.expand_dims(img_array, axis=0)
     img_array = img_array.astype(np.float32) 
-    return image
+    return image_array
 
 st.title("Clasificación de imágenes de maravillas del mundo")
 st.write("Este sitio web fue creado para la materia Modelizado de Sistemas de IA de la Tecnicatura Superior en Ciencias de Datos e Inteligencia Artificial del IFTS 18. La idea es que subas una imagen de uno de las siguientes maravillas del mundo: burj_khalifa, chichen_itza, christ the reedemer, eiffel_tower, great_wall_of_china, machu_pichu, pyramids_of_giza, roman_colosseum, statue_of_liberty, stonehenge, taj_mahal, venezuela_angel_falls y el modelo te dirá qué maravilla aparece en la imagen. ¡Diviértete!")
