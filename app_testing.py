@@ -3,6 +3,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
+import os
 
 # Cargar el modelo TFLite
 interpreter = tf.lite.Interpreter(model_path='model.tflite')
