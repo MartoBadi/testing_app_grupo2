@@ -63,9 +63,6 @@ if uploaded_file is not None:
     
     # Buscar la carpeta de la imagen
     real_class = find_image_folder(image_name, base_dir=repo_path)
-        
-    # Obtener la clase real (nombre de la carpeta)
-    real_class = os.path.basename(os.path.dirname(uploaded_file.name))
   
     st.write(f"Real class: {real_class}")
     st.write(f"Prediction: {predicted_class}")
