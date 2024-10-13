@@ -11,8 +11,6 @@ interpreter.allocate_tensors()
 
 repo_path = os.path.dirname(os.path.abspath(__file__))
 
-print(repo_path) 
-
 # Obtener detalles de entrada y salida
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
@@ -64,7 +62,7 @@ if uploaded_file is not None:
     image_name = uploaded_file.name
     
     # Buscar la carpeta de la imagen
-    real_class = find_image_folder(image_name, base_dir='path/to/your/repository')
+    real_class = find_image_folder(image_name, base_dir=repo_path)
         
     # Obtener la clase real (nombre de la carpeta)
     real_class = os.path.basename(os.path.dirname(uploaded_file.name))
