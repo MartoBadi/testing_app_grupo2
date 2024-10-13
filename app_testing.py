@@ -9,6 +9,10 @@ import os
 interpreter = tf.lite.Interpreter(model_path='model.tflite')
 interpreter.allocate_tensors()
 
+repo_path = os.path.dirname(os.path.abspath(__file__))
+
+print(repo_path) 
+
 # Obtener detalles de entrada y salida
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
