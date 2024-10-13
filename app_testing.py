@@ -20,7 +20,7 @@ class_names = ['burj_khalifa', 'chichen_itza', 'christ the reedemer', 'eiffel_to
 # Preprocesar la imagen subida
 def preprocess_image(image):
     # Redimensionar la imagen al tamaño esperado por el modelo
-    image = size = (150,150)
+    image = image.resize(150,150,3)
     
     # Convertir la imagen a un array de numpy
     image = np.array(image)
