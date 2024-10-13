@@ -20,57 +20,48 @@ class_names = ['burj_khalifa', 'chichen_itza', 'christ the reedemer', 'eiffel_to
 # Preprocesar la imagen subida
 def preprocess_image(image):
     # Redimensionar la imagen al tamaño esperado por el modelo
-    image = image.resize(image, (150,150))
+    image = Image.fromarray(image).resize((150, 150))
     
     # Convertir la imagen a un array de numpy
     image = np.array(image)
     
-    # Normalizar la imagen (asegúrate de que esto coincida con el notebook)
-    image = image / 255.0
+    # Normalizar la imagen
+    img_array = image / 255.0
     
     # Expandir las dimensiones para que coincida con el formato esperado por el modelo
-    image = np.expand_dims(image, axis=0)
+    img_array = np.expand_dims(img_array, axis=0)
     
     # Asegurarse de que la imagen sea de tipo FLOAT32
-    image = image.astype(np.float32)
+    img_array = img_array.astype(np.float32)
     
-    return image
+    return img_array
 
-# Función para evaluar el conjunto de prueba
-def evaluate_test_set(test_dir):
-    correct_predictions = 0
-    total_predictions = 0
+st.title("Clasificación de imágenes de maravillas del mundo")
+st.write("Este sitio web fue creado para la materia Modelizado de Sistemas de IA de la Tecnicatura Superior en Ciencias de Datos e Inteligencia Artificial del IFTS 18. La idea es que subas una imagen de uno de las siguientes maravillas del mundo: burj_khalifa, chichen_itza, christ the reedemer, eiffel_tower, great_wall_of_china, machu_pichu, pyramids_of_giza, roman_colosseum, statue_of_liberty, stonehenge, taj_mahal, venezuela_angel_falls y el modelo te dirá qué maravilla aparece en la imagen. ¡Diviértete!")
 
-    for class_name in os.listdir(test_dir):
-        class_dir = os.path.join(test_dir, class_name)
-        if os.path.isdir(class_dir):
-            for image_name in os.listdir(class_dir):
-                image_path = os.path.join(class_dir, image_name)
-                image = Image.open(image_path)
-                img_array = preprocess_image(image)
-                
-                # Hacer predicciones
-                interpreter.set_tensor(input_details[0]['index'], img_array)
-                interpreter.invoke()
-                predictions = interpreter.get_tensor(output_details[0]['index'])
-                
-                # Obtener la clase con mayor probabilidad
-                predicted_class = class_names[np.argmax(predictions)]
-                
-                # Imprimir información de depuración
-                print(f"Real: {class_name}, Predicha: {predicted_class}, Predicciones: {predictions}")
-                
-                # Comparar con la etiqueta real
-                if predicted_class == class_name:
-                    correct_predictions += 1
-                total_predictions += 1
+# Subir archivo
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
-    accuracy = correct_predictions / total_predictions
-    return accuracy
-
-# Directorio del conjunto de prueba
-test_dir = 'test'
-
-# Evaluar el conjunto de prueba
-accuracy = evaluate_test_set(test_dir)
-st.write(f"Test set accuracy: {accuracy:.2f}")
+if uploaded_file is not None:
+    # Leer la imagen usando Matplotlib
+    image = mpimg.imread(uploaded_file)
+    st.image(image, caption='Uploaded Image.', use_column_width=True)
+    st.write("")
+    st.write("Classifying...")
+    
+    # Preprocesar la imagen
+    img_array = preprocess_image(image)
+    
+    # Hacer predicciones
+    interpreter.set_tensor(input_details[0]['index'], img_array)
+    interpreter.invoke()
+    predictions = interpreter.get_tensor(output_details[0]['index'])
+    
+    # Obtener la clase con mayor probabilidad
+    predicted_class = class_names[np.argmax(predictions)]
+    
+    # Obtener la clase real (nombre de la carpeta)
+    real_class = os.path.basename(os.path.dirname(uploaded_file.name))
+    
+    st.write(f"Real class: {real_class}")
+    st.write(f"Predicted class: {predicted_class}")
