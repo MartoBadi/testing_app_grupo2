@@ -26,6 +26,13 @@ def preprocess_image(image):
     img_array = img_array.astype(np.float32) 
     return img_array
 
+# Función para buscar la carpeta de la imagen
+def find_image_folder(image_name, base_dir='path/to/your/repository'):
+    for root, dirs, files in os.walk(base_dir):
+        if image_name in files:
+            return os.path.basename(root)
+    return "Unknown"
+
 st.title("Clasificación de imágenes de maravillas del mundo")
 st.write("Este sitio web fue creado para la materia Modelizado de Sistemas de IA de la Tecnicatura Superior en Ciencias de Datos e Inteligencia Artificial del IFTS 18. La idea es que subas una imagen de uno de las siguientes maravillas del mundo: burj_khalifa, chichen_itza, christ the reedemer, eiffel_tower, great_wall_of_china, machu_pichu, pyramids_of_giza, roman_colosseum, statue_of_liberty, stonehenge, taj_mahal, venezuela_angel_falls y el modelo te dirá qué maravilla aparece en la imagen. ¡Diviértete!")
 
@@ -49,6 +56,11 @@ if uploaded_file is not None:
     
     # Obtener la clase con mayor probabilidad
     predicted_class = class_names[np.argmax(predictions)]
+
+    image_name = uploaded_file.name
+    
+    # Buscar la carpeta de la imagen
+    real_class = find_image_folder(image_name, base_dir='path/to/your/repository')
         
     # Obtener la clase real (nombre de la carpeta)
     real_class = os.path.basename(os.path.dirname(uploaded_file.name))
