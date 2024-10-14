@@ -68,10 +68,11 @@ if uploaded_file is not None:
     st.write(f"Prediction: {predicted_class}")
 
     # Inicializar el contador en session_state si no existe
-if 'correct_predictions' not in st.session_state:
+    
+    if 'correct_predictions' not in st.session_state:
     st.session_state.correct_predictions = 0
-
-# Incrementar el contador si la clase real es igual a la clase predicha
+    
+    # Incrementar el contador si la clase real es igual a la clase predicha
     if real_class == predicted_class:
         st.session_state.correct_predictions += 1
     
