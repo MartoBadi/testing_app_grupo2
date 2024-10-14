@@ -42,5 +42,13 @@
 "stock en venta": 3,
 "stock en despensa": 0
 
-}
+},
+{
+"nombre": "Hummus clásico Kyros 230 gramos"  ,
+"precio": "3.400"   ,
+"ubicacion": "Heladera"   ,
+"stock en venta": 1   ,
+"stock en despensa": 0 ,
+},
+
 ]
