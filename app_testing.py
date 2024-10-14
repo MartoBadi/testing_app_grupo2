@@ -73,7 +73,12 @@ if uploaded_file is not None:
         st.session_state.correct_predictions = 0
 
         # Mostrar el contador actualizado
-        st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+        if real_class == predicted_class:
+            st.session_state.correct_predictions += 1
+            st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+        else:            
+    # Mostrar el contador actualizado
+            st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
     
     else:
     
