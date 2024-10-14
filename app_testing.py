@@ -66,4 +66,11 @@ if uploaded_file is not None:
   
     st.write(f"Real class: {real_class}")
     st.write(f"Prediction: {predicted_class}")
+
+# Incrementar el contador si la clase real es igual a la clase predicha
+    if real_class == predicted_class:
+        st.session_state.correct_predictions += 1
+    
+    # Mostrar el contador actualizado
+    st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
   
