@@ -70,12 +70,17 @@ if uploaded_file is not None:
     # Inicializar el contador en session_state si no existe
     
     if 'correct_predictions' not in st.session_state:
-    st.session_state.correct_predictions = 0
+        st.session_state.correct_predictions = 0
+
+        # Mostrar el contador actualizado
+        st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+    
+    else:
     
     # Incrementar el contador si la clase real es igual a la clase predicha
-    if real_class == predicted_class:
+        if real_class == predicted_class:
         st.session_state.correct_predictions += 1
     
     # Mostrar el contador actualizado
-    st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+        st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
   
