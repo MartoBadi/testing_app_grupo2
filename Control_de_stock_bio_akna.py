@@ -7,17 +7,10 @@ file_path = 'stock.json'
 
 # Cargar productos desde el archivo JSON
 def cargar_productos():
-    if os.path.exists(file_path):
+    os.path.exists(file_path):
         with open(file_path, 'r') as file:
-            return json.load(file)
-    else:
-        return [
-            {"nombre": "Chips de chocolate", "precio": "$1.800 por 100 gramos", "categoria": "Producto a un precio por kilo", "ubicacion": "Heladera", "stock en venta": 1, "stock en despensa": 0},
-            {"nombre": "Jugo de manzana roja Pura Frutta 1 litro", "precio": "$3.500", "ubicacion": "Heladera", "stock en venta": 2, "stock en despensa": 0},
-            {"nombre": "Jugo de sabor multifruta (manzana, pera, banana y naranja) Pura Frutta 1 litro", "precio": "$3.500", "ubicacion": "Heladera", "stock en venta": 2, "stock en despensa": 0},
-            {"nombre": "Jugo de manzana y frutilla Pura Frutta 1 litro", "precio": "$3.700", "ubicacion": "Heladera", "stock en venta": 2, "stock en despensa": 0},
-            {"nombre": "Kombucha Bravia sabor superberry (con frutos rojos) 473ml", "precio": "$3.100", "ubicacion": "Heladera", "stock en venta": 2, "stock en despensa": 0}
-        ]
+    return json.load(file)
+    
 
 # Guardar productos en el archivo JSON
 def guardar_productos(productos):
