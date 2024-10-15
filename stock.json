@@ -5,14 +5,16 @@
         "categoria": "Producto a un precio por kilo",
         "ubicacion": "Heladera",
         "stock en venta": 1,
-        "stock en despensa": 0
+        "stock en despensa": 0,
+"fecha o fechas de vencimiento": "no aplica" 
     },
     {
         "nombre": "Jugo de manzana roja Pura Frutta 1 litro",
         "precio": "$3.500",
         "ubicacion": "Heladera",
         "stock en venta": 2,
-        "stock en despensa": 0
+        "stock en despensa": 0,
+"fecha o fechas de vencimiento": "26/08/25" 
     },
     {
         "nombre": "Jugo de sabor multifruta (manzana, pera, banana y naranja) Pura Frutta 1 litro",
@@ -63,6 +65,14 @@
 "ubicacion": "Mostrador"  ,
 "stock en venta":  20  ,
 "stock en despensa": 0  
+},
+{
+"nombre": "barrita Laddubar choco naranja 30 gramos" ,
+"precio": "$1.000"  ,
+"ubicacion": "Mostrador" ,
+"stock en venta": 7   ,
+"stock en despensa": 0 ,
+
 }
 
 ]
