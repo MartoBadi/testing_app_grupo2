@@ -29,7 +29,7 @@ def preprocess_image(image):
     return img_array
 
 # Función para buscar la carpeta de la imagen
-def find_image_folder(image_name, base_dir=repo_path):
+def find_image_folder(image_name, base_dir=''):
     for root, dirs, files in os.walk(base_dir):
         if image_name in files:
             return os.path.basename(root)
