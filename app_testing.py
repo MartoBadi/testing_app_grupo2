@@ -114,9 +114,4 @@ for root, dirs, files in os.walk(image_directory):
             image = Image.open(image_path)
             process_image_and_update_display(image, image_name)
 
-if uploaded_file is not None:
-    # Leer la imagen usando Matplotlib
-    image = mpimg.imread(uploaded_file)
-    process_image_and_update_display(image, uploaded_file.name)
-
-print("La anterior es la última imagen")
+st.write("La anterior es la última imagen")
