@@ -49,6 +49,7 @@ def reset_texts():
     st.session_state['correct_predictions_text'] = ""
 
 predicciones_correctas = 0
+numero_de_imagen = 0
 # Función para procesar una imagen y actualizar textos en pantalla
 def process_image_and_update_display(image, image_name):
     reset_texts()  # Reiniciar textos antes de procesar la imagen
@@ -56,8 +57,6 @@ def process_image_and_update_display(image, image_name):
 
     # Preprocesar la imagen
     img_array = preprocess_image(image)
-
-    print(f'Esta es la imagen numero {numero_de_imagen}')
 
     # Hacer predicciones
     interpreter.set_tensor(input_details[0]['index'], img_array)
@@ -88,6 +87,8 @@ def process_image_and_update_display(image, image_name):
     if real_class == predicted_class:
         global predicciones_correctas
         predicciones_correctas += 1
+      
+    numero de imagen += 1
 
     # Mostrar los textos y el contador actualizado
     st.write(st.session_state['result_text'])
@@ -110,4 +111,4 @@ for root, dirs, files in os.walk(image_directory):
         image = Image.open(image_path)
         process_image_and_update_display(image, image_name)
 
-st.write(f"La cantidad de predicciones es: {predicciones_correctas}")
+st.write(f"La cantidad de imagenes analizadas es: {numero_de_imagenes} y se hicieron {predicciones_correctas} predicciones correctas.")
