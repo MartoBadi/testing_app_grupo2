@@ -6,6 +6,8 @@ import numpy as np
 import os
 from PIL import Image
 
+# La app funciona perfecto.
+
 # Cargar el modelo TFLite
 interpreter = tf.lite.Interpreter(model_path='modelNella.tflite')
 interpreter.allocate_tensors()
