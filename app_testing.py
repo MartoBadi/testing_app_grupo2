@@ -5,6 +5,8 @@ import matplotlib.image as mpimg
 import numpy as np
 import os
 
+# Ahora la aplicación funciona bien.
+
 # Cargar el modelo TFLite
 interpreter = tf.lite.Interpreter(model_path='modelNella.tflite')
 interpreter.allocate_tensors()
