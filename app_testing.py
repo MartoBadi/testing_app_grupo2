@@ -26,12 +26,12 @@ confidence_threshold = 0.6050201058387756
 
 # Preprocesar la imagen subida
 def preprocess_image(image):
-    size = (224, 224)  # Asegúrate de que este tamaño sea el correcto para tu modelo
-    image = np.array(image)
-    image = np.resize(image, (size[0], size[1], 3))  # Redimensionar la imagen
-    img_array = image / 255.0  # Normalizar la imagen
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array = img_array.astype(np.float32) 
+    size = (224, 224)  # Tamaño esperado por el modelo
+    image = image.resize(size)  # Usar PIL para redimensionar
+    img_array = np.array(image)  # Convertir la imagen a un array NumPy
+    img_array = img_array / 255.0  # Normalizar la imagen
+    img_array = np.expand_dims(img_array, axis=0)  # Expandir a un batch de tamaño 1
+    img_array = img_array.astype(np.float32)  # Asegurar que sea float32
     return img_array
 
 # Función para buscar la carpeta de la imagen
