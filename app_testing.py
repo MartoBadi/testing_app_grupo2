@@ -48,7 +48,7 @@ def reset_texts():
     st.session_state['real_class_text'] = ""
     st.session_state['correct_predictions_text'] = ""
 
-numero_de_imagen = 0
+predicciones_correctas = 0
 # Función para procesar una imagen y actualizar textos en pantalla
 def process_image_and_update_display(image, image_name):
     reset_texts()  # Reiniciar textos antes de procesar la imagen
@@ -56,10 +56,6 @@ def process_image_and_update_display(image, image_name):
 
     # Preprocesar la imagen
     img_array = preprocess_image(image)
-
-    global numero_de_imagen 
-  
-    numero_de_imagen += 1
 
     print(f'Esta es la imagen numero {numero_de_imagen}')
 
@@ -90,7 +86,8 @@ def process_image_and_update_display(image, image_name):
 
     # Incrementar el contador si la clase real es igual a la clase predicha
     if real_class == predicted_class:
-        st.session_state.correct_predictions += 1
+        global predicciones_correctas
+        predicciones_correctas += 1
 
     # Mostrar los textos y el contador actualizado
     st.write(st.session_state['result_text'])
@@ -108,10 +105,9 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png
 # Procesar y mostrar imágenes de un directorio
 image_directory = "./test"
 for root, dirs, files in os.walk(image_directory):
-    for image_name in files:
-        if image_name.lower().endswith(('.png', '.jpg', '.jpeg')):
-            image_path = os.path.join(root, image_name)
-            image = Image.open(image_path)
-            process_image_and_update_display(image, image_name)
+    for image_name in files: 
+        image_path = os.path.join(root, image_name)
+        image = Image.open(image_path)
+        process_image_and_update_display(image, image_name)
 
-st.write("La anterior es la última imagen")
+st.write(f"La cantidad de predicciones es: {predicciones_correctas}")
