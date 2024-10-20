@@ -112,3 +112,5 @@ if uploaded_file is not None:
     # Leer la imagen usando Matplotlib
     image = mpimg.imread(uploaded_file)
     process_image_and_update_display(image, uploaded_file.name)
+
+print("La anterior es la última imagen")
