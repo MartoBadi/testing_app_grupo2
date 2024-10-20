@@ -92,10 +92,7 @@ st.write("Este sitio web fue creado para la materia Modelizado de Sistemas de IA
 # Subir archivo
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
-# Botón para cargar imágenes desde el directorio
-if st.button("Cargar imágenes desde el directorio"):
-    image_directory = ".\test"  # Cambia esto al directorio de tus imágenes
-    load_and_process_images(image_directory)
+load_and_process_images(image_directory)
 
 if uploaded_file is not None:
     # Leer la imagen usando Matplotlib
@@ -106,6 +103,7 @@ if uploaded_file is not None:
     
     # Preprocesar la imagen
     img_array = preprocess_image(image)
+    print("Pruebas finalizadas")
     
     # Hacer predicciones
     interpreter.set_tensor(input_details[0]['index'], img_array)
