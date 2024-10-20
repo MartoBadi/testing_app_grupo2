@@ -114,4 +114,4 @@ for root, dirs, files in os.walk(image_directory):
         image = Image.open(image_path)
         process_image_and_update_display(image, image_name)
 
-st.write(f"La cantidad de imagenes analizadas es: {numero_de_imagenes} y se hicieron {predicciones_correctas} predicciones correctas.")
+st.write(f"La cantidad de imagenes analizadas es: {numero_de_imagen} y se hicieron {predicciones_correctas} predicciones correctas.")
