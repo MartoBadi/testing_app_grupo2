@@ -91,7 +91,7 @@ def process_image_and_update_display(image, image_name):
         global predicciones_correctas
         predicciones_correctas += 1
       
-    numero de imagen += 1
+    numero_de_imagen += 1
 
     # Mostrar los textos y el contador actualizado
     st.write(st.session_state['result_text'])
