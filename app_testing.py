@@ -59,7 +59,7 @@ def process_image_and_update_display(image, image_name):
 
     numero_de_imagen += 1
 
-    print(f'Esta es la imagen numero {numero_de_imagen)')
+    print(f'Esta es la imagen numero {numero_de_imagen}')
 
     # Hacer predicciones
     interpreter.set_tensor(input_details[0]['index'], img_array)
