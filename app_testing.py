@@ -57,7 +57,9 @@ def process_image_and_update_display(image, image_name):
     # Preprocesar la imagen
     img_array = preprocess_image(image)
 
-    global numero_de_imagen += 1
+    global numero_de_imagen 
+  
+    numero_de_imagen += 1
 
     print(f'Esta es la imagen numero {numero_de_imagen}')
 
