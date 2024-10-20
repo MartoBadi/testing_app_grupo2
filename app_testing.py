@@ -92,6 +92,8 @@ st.write("Este sitio web fue creado para la materia Modelizado de Sistemas de IA
 # Subir archivo
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
+image_directory = "./test"
+
 load_and_process_images(image_directory)
 
 if uploaded_file is not None:
