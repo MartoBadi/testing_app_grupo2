@@ -48,6 +48,7 @@ def reset_texts():
     st.session_state['real_class_text'] = ""
     st.session_state['correct_predictions_text'] = ""
 
+numero_de_imagen = 0
 # Función para procesar una imagen y actualizar textos en pantalla
 def process_image_and_update_display(image, image_name):
     reset_texts()  # Reiniciar textos antes de procesar la imagen
@@ -55,7 +56,10 @@ def process_image_and_update_display(image, image_name):
 
     # Preprocesar la imagen
     img_array = preprocess_image(image)
-    print("Pruebas finalizadas")
+
+    numero_de_imagen += 1
+
+    print(f'Esta es la imagen numero {numero_de_imagen)')
 
     # Hacer predicciones
     interpreter.set_tensor(input_details[0]['index'], img_array)
