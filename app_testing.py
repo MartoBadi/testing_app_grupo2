@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import os
-
-# Ahora la aplicación funciona bien.
+from PIL import Image
 
 # Cargar el modelo TFLite
 interpreter = tf.lite.Interpreter(model_path='modelNella.tflite')
@@ -42,11 +41,61 @@ def find_image_folder(image_name, base_dir=repo_path):
             return os.path.basename(root)
     return "Unknown"
 
+# Función para cargar y procesar imágenes desde un directorio
+def load_and_process_images(image_directory):
+    for root, dirs, files in os.walk(image_directory):
+        for image_name in files:
+            if image_name.lower().endswith(('.png', '.jpg', '.jpeg')):
+                image_path = os.path.join(root, image_name)
+                image = Image.open(image_path)
+                st.image(image, caption=image_name)
+                
+                # Preprocesar la imagen
+                img_array = preprocess_image(image)
+                
+                # Hacer predicciones
+                interpreter.set_tensor(input_details[0]['index'], img_array)
+                interpreter.invoke()
+                predictions = interpreter.get_tensor(output_details[0]['index'])
+
+                max_probabilidad = np.max(predictions)
+
+                # Verificar si la probabilidad supera el umbral de confianza
+                if max_probabilidad < confidence_threshold:
+                    st.write(f"No se pudo clasificar la imagen. La probabilidad maxima fue de {max_probabilidad:.2f}")
+                    predicted_class = " "
+                else:
+                    # Obtener la clase con mayor probabilidad
+                    predicted_class = class_names[np.argmax(predictions)]
+                    st.write(f"Prediction: {predicted_class} con una probabilidad de {max_probabilidad:.2f}")
+
+                # Buscar la carpeta de la imagen
+                real_class = find_image_folder(image_name, base_dir=repo_path)
+                st.write(f"Real class: {real_class}")
+                st.write(f"Prediction: {predicted_class}")
+
+                # Inicializar el contador en session_state si no existe
+                if 'correct_predictions' not in st.session_state:
+                    st.session_state.correct_predictions = 0
+
+                # Incrementar el contador si la clase real es igual a la clase predicha
+                if real_class == predicted_class:
+                    st.session_state.correct_predictions += 1
+
+                # Mostrar el contador actualizado
+                st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+
+# Título de la aplicación
 st.title("Clasificación de imágenes de maravillas del mundo")
 st.write("Este sitio web fue creado para la materia Modelizado de Sistemas de IA de la Tecnicatura Superior en Ciencias de Datos e Inteligencia Artificial del IFTS 18. La idea es que subas una imagen de una de las maravillas del mundo y el modelo la clasificará.")
 
 # Subir archivo
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+
+# Botón para cargar imágenes desde el directorio
+if st.button("Cargar imágenes desde el directorio"):
+    image_directory = ".\test"  # Cambia esto al directorio de tus imágenes
+    load_and_process_images(image_directory)
 
 if uploaded_file is not None:
     # Leer la imagen usando Matplotlib
