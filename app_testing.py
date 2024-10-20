@@ -52,6 +52,9 @@ predicciones_correctas = 0
 numero_de_imagen = 0
 # Función para procesar una imagen y actualizar textos en pantalla
 def process_image_and_update_display(image, image_name):
+    global predicciones_correctas
+    global numero_de_imagen
+  
     reset_texts()  # Reiniciar textos antes de procesar la imagen
     st.image(image, caption=image_name)
 
