@@ -6,7 +6,7 @@ import numpy as np
 import os
 
 # Cargar el modelo TFLite
-interpreter = tf.lite.Interpreter(model_path='model.tflite')
+interpreter = tf.lite.Interpreter(model_path='modelNella.tflite')
 interpreter.allocate_tensors()
 
 repo_path = os.path.dirname(os.path.abspath(__file__))
@@ -19,6 +19,9 @@ output_details = interpreter.get_output_details()
 class_names = ['burj_khalifa', 'chichen_itza', 'christ the reedemer', 'eiffel_tower', 
                'great_wall_of_china', 'machu_pichu', 'pyramids_of_giza', 'roman_colosseum', 
                'statue_of_liberty', 'stonehenge', 'taj_mahal', 'venezuela_angel_falls']
+
+# Definir umbral de confianza (por ejemplo, 80%)
+confidence_threshold = 0.6050201058387756
 
 # Preprocesar la imagen subida
 def preprocess_image(image):
@@ -57,9 +60,17 @@ if uploaded_file is not None:
     interpreter.set_tensor(input_details[0]['index'], img_array)
     interpreter.invoke()
     predictions = interpreter.get_tensor(output_details[0]['index'])
-    
-    # Obtener la clase con mayor probabilidad
-    predicted_class = class_names[np.argmax(predictions)]
+
+    max_probabilidad = np.max(predictions)
+
+    # Verificar si la probabilidad supera el umbral de confianza
+    if max_probabilidad < confidence_threshold:
+        st.write(f"No se pudo clasificar la imagen. La probabilidad maxima fue de {max_probabilidad:.2f}")
+        predicted_class = " "
+    else:
+        # Obtener la clase con mayor probabilidad
+        predicted_class = class_names[np.argmax(predictions)]
+        st.write(f"Prediction: {predicted_class} con una probabilidad de {max_probabilidad:.2f}")
 
     image_name = uploaded_file.name
     
