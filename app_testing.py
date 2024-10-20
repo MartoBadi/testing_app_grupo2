@@ -41,8 +41,16 @@ def find_image_folder(image_name, base_dir=repo_path):
             return os.path.basename(root)
     return "Unknown"
 
+# Inicializar textos antes de cargar y procesar imágenes
+def reset_texts():
+    st.session_state['result_text'] = ""
+    st.session_state['prediction_text'] = ""
+    st.session_state['real_class_text'] = ""
+    st.session_state['correct_predictions_text'] = ""
+
 # Función para cargar y procesar imágenes desde un directorio
 def load_and_process_images(image_directory):
+    reset_texts()  # Llamar a la función para inicializar los textos
     for root, dirs, files in os.walk(image_directory):
         for image_name in files:
             if image_name.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -62,17 +70,17 @@ def load_and_process_images(image_directory):
 
                 # Verificar si la probabilidad supera el umbral de confianza
                 if max_probabilidad < confidence_threshold:
-                    st.write(f"No se pudo clasificar la imagen. La probabilidad maxima fue de {max_probabilidad:.2f}")
+                    st.session_state['result_text'] = f"No se pudo clasificar la imagen. La probabilidad maxima fue de {max_probabilidad:.2f}"
                     predicted_class = " "
                 else:
                     # Obtener la clase con mayor probabilidad
                     predicted_class = class_names[np.argmax(predictions)]
-                    st.write(f"Prediction: {predicted_class} con una probabilidad de {max_probabilidad:.2f}")
+                    st.session_state['prediction_text'] = f"Prediction: {predicted_class} con una probabilidad de {max_probabilidad:.2f}"
 
                 # Buscar la carpeta de la imagen
                 real_class = find_image_folder(image_name, base_dir=repo_path)
-                st.write(f"Real class: {real_class}")
-                st.write(f"Prediction: {predicted_class}")
+                st.session_state['real_class_text'] = f"Real class: {real_class}"
+                st.session_state['prediction_text'] = f"Prediction: {predicted_class}"
 
                 # Inicializar el contador en session_state si no existe
                 if 'correct_predictions' not in st.session_state:
@@ -82,7 +90,10 @@ def load_and_process_images(image_directory):
                 if real_class == predicted_class:
                     st.session_state.correct_predictions += 1
 
-                # Mostrar el contador actualizado
+                # Mostrar los textos y el contador actualizado
+                st.write(st.session_state['result_text'])
+                st.write(st.session_state['prediction_text'])
+                st.write(st.session_state['real_class_text'])
                 st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
 
 # Título de la aplicación
@@ -102,7 +113,10 @@ if uploaded_file is not None:
     st.image(image, caption='Uploaded Image.', use_column_width=True)
     st.write("")
     st.write("Classifying...")
-    
+
+    # Reiniciar textos antes de procesar la imagen
+    reset_texts()
+
     # Preprocesar la imagen
     img_array = preprocess_image(image)
     print("Pruebas finalizadas")
@@ -116,20 +130,19 @@ if uploaded_file is not None:
 
     # Verificar si la probabilidad supera el umbral de confianza
     if max_probabilidad < confidence_threshold:
-        st.write(f"No se pudo clasificar la imagen. La probabilidad maxima fue de {max_probabilidad:.2f}")
+        st.session_state['result_text'] = f"No se pudo clasificar la imagen. La probabilidad maxima fue de {max_probabilidad:.2f}"
         predicted_class = " "
     else:
         # Obtener la clase con mayor probabilidad
         predicted_class = class_names[np.argmax(predictions)]
-        st.write(f"Prediction: {predicted_class} con una probabilidad de {max_probabilidad:.2f}")
+        st.session_state['prediction_text'] = f"Prediction: {predicted_class} con una probabilidad de {max_probabilidad:.2f}"
 
     image_name = uploaded_file.name
     
     # Buscar la carpeta de la imagen
     real_class = find_image_folder(image_name, base_dir=repo_path)
-  
-    st.write(f"Real class: {real_class}")
-    st.write(f"Prediction: {predicted_class}")
+    st.session_state['real_class_text'] = f"Real class: {real_class}"
+    st.session_state['prediction_text'] = f"Prediction: {predicted_class}"
 
     # Inicializar el contador en session_state si no existe
     if 'correct_predictions' not in st.session_state:
@@ -139,5 +152,8 @@ if uploaded_file is not None:
     if real_class == predicted_class:
         st.session_state.correct_predictions += 1
     
-    # Mostrar el contador actualizado
+    # Mostrar los textos y el contador actualizado
+    st.write(st.session_state['result_text'])
+    st.write(st.session_state['prediction_text'])
+    st.write(st.session_state['real_class_text'])
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
